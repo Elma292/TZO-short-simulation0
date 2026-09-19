@@ -1,0 +1,81 @@
+===============================================================================
+PHYSICS SPECIFICATION & MATHEMATICAL FORMULATION
+===============================================================================
+
+1. ORBITAL MECHANICS & BONDI-HOYLE-LYTTLETON (BHL) DRAG
+-------------------------------------------------------------------------------
+Two-Body Keplerian Orbital Velocity:
+    v_orb = sqrt( G * (M_1 + M_2) / r )
+
+    where:
+      M_1 = 12.0 M_sun (Red Supergiant mass)
+      M_2 = 1.4 M_sun  (Neutron star mass)
+      r   = orbital separation distance
+
+Bondi-Hoyle Accretion Radius:
+    R_BH = ( 2 * G * M_2 ) / ( v_rel^2 + c_s^2 )
+
+    where:
+      v_rel = companion's relative velocity through envelope gas
+      c_s   = local speed of sound = sqrt( gamma * k_B * T / (mu * m_p) )
+
+Hydrodynamic Gas Drag Force:
+    F_drag = -0.5 * C_D * pi * (R_BH)^2 * rho(r) * v_rel * v_vector
+
+Orbital Angular Momentum Loss Rate:
+    dL/dt = r x F_drag
+    (Drives the inward Common-Envelope Evolution plunge toward the core)
+
+
+2. DEGENERATE CORE DYNAMICS & rp-PROCESS NUCLEOSYNTHESIS
+-------------------------------------------------------------------------------
+Eddington Luminosity Limit (Photon radiation limit):
+    L_Edd = ( 4 * pi * G * M * c ) / kappa
+
+Neutrino-Cooled Hyper-Critical Accretion (M_dot >> M_dot_Edd):
+    e^- + e^+  -->  nu_e + anti_nu_e
+    L_nu = integral( epsilon_nu dV ) >> L_Edd
+    (Direct neutrino cooling bypasses the photon radiation pressure barrier)
+
+rp-Process (Rapid Proton Capture) Reaction:
+    (Z, A) + p  -->  (Z + 1, A + 1) + gamma
+    (Synthesizes anomalous overabundances of 7Li, 85Rb, and 96Mo)
+
+
+3. GENERAL RELATIVITY: TOV COLLAPSE & KERR BLACK HOLE BRANCH
+-------------------------------------------------------------------------------
+Tolman-Oppenheimer-Volkoff (TOV) Limit:
+    dP/dr = - [ G * M(r) * rho(r) / r^2 ] *
+            [ 1 + P / (rho * c^2) ] *
+            [ 1 + 4*pi*r^3 * P / (M(r) * c^2) ] *
+            [ 1 - 2*G*M(r) / (c^2 * r) ]^(-1)
+
+    Collapse occurs when:
+    M_core >= M_TOV (~ 2.2 to 2.5 M_sun)
+
+Kerr Metric (Boyer-Lindquist coordinates):
+    ds^2 = - ( 1 - 2*G*M*r / (rho_K^2 * c^2) ) * c^2 * dt^2
+           - ( 4*G*M*a*r * sin^2(theta) / (rho_K^2 * c) ) * dt * dphi
+           + ( rho_K^2 / Delta ) * dr^2
+           + rho_K^2 * dtheta^2
+           + ( r^2 + a^2 + 2*G*M*a^2*r*sin^2(theta) / (rho_K^2 * c^2) ) * sin^2(theta) * dphi^2
+
+    where:
+      Delta   = r^2 - (2*G*M*r / c^2) + a^2
+      rho_K^2 = r^2 + a^2 * cos^2(theta)
+      a       = J / (M * c)  [Angular momentum spin parameter]
+
+Relativistic Doppler Beaming:
+    I_observed = delta^4 * I_emitted
+    delta = 1 / [ Gamma * (1 - beta * cos(theta_los)) ]
+    Gamma = 1 / sqrt( 1 - beta^2 )
+
+
+4. RADIATIVE TRANSFER & VOLUMETRIC RAYMARCHING
+-------------------------------------------------------------------------------
+Beer-Lambert Optical Depth:
+    tau(s) = integral_0^s [ kappa * rho(r(s')) ] ds'
+
+Raymarching Intensity Extinction:
+    I(s) = integral_0^s [ S(r(s')) * exp(-tau(s')) * kappa * rho(r(s')) ] ds'
+===============================================================================
